@@ -9,6 +9,11 @@ UWallBoxComponent::UWallBoxComponent()
 }
 
 
+void UWallBoxComponent::SetMover(UMover* MoverComp)
+{
+	Mover = MoverComp;
+}
+
 void UWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -22,14 +27,22 @@ void UWallBoxComponent::GetSupportedActor()
 
 	if (OutComponents.Num() > 0)
 	{
-		for (UPrimitiveComponent* Component : OutComponents)
+		if (!bActorInside)
 		{
-			if (Component->ComponentHasTag(OverlappableComponentTag))
+			for (UPrimitiveComponent* Component : OutComponents)
 			{
-				OnSupportedCompOverlap.Broadcast(Component);
-				break;
+				if (Component->ComponentHasTag(OverlappableComponentTag))
+				{
+					OnSupportedCompOverlap.Broadcast(Component);
+					bActorInside = true;
+					break;
+				}
 			}
 		}
+	}
+	else
+	{
+		bActorInside = false;
 	}
 }
 
