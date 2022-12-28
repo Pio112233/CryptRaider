@@ -37,6 +37,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	bool bShouldMove{false};
 
+	UFUNCTION()
+	void MoveActor(float DeltaTime);
 
 		
 };

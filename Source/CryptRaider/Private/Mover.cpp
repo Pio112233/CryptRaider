@@ -23,28 +23,26 @@ void UMover::BeginPlay()
 	
 }
 
+void UMover::MoveActor(float DeltaTime)
+{
+	FVector TargetLocation = OriginalLocation;
+	FVector CurrentLocation = GetOwner()->GetActorLocation();
+	
+	if (bShouldMove)
+	{
+		TargetLocation = OriginalLocation + MoveOffset;
+	}
+	float Speed = MoveOffset.Length() / MoveTime;
+	FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
+
+	GetOwner()->SetActorLocation(NewLocation);
+}
+
 
 // Called every frame
 void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-/**
-	AActor* Owner = GetOwner();
-	FString OwnerName = Owner->GetActorNameOrLabel();
-	FVector ActorLoc = Owner->GetActorLocation();
-	FString LocationString = ActorLoc.ToCompactString();
-	UE_LOG(LogTemp, Display, TEXT("%s location : %s"),*OwnerName, *LocationString);
-*/
-	if (bShouldMove)
-	{
-		FVector CurrentLocation = GetOwner()->GetActorLocation();
-		FVector TargetLocation =OriginalLocation + MoveOffset;
-		float Speed = FVector::Distance(OriginalLocation, TargetLocation) / MoveTime;
-		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, MoveTime);
-
-		GetOwner()->SetActorLocation(NewLocation);
-	}
-	// ...
+	MoveActor(DeltaTime);
 }
 
