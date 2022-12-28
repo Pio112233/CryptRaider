@@ -31,8 +31,12 @@ void UWallBoxComponent::GetSupportedActor()
 		{
 			for (UPrimitiveComponent* Component : OutComponents)
 			{
-				if (Component->ComponentHasTag(OverlappableComponentTag))
+				if (Component->ComponentHasTag(OverlappableComponentTag) && !Component->ComponentTags.Contains("grabbed"))
 				{
+					Component->SetSimulatePhysics(false);
+					Component->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+					Component->SetWorldLocation({Component->GetComponentLocation().X, Component->GetComponentLocation().Y, GetComponentLocation().Z - GetScaledBoxExtent().Z});
+					Component->SetWorldRotation({0.0, Component->GetComponentRotation().Yaw, 0.0});
 					OnSupportedCompOverlap.Broadcast(Component);
 					bActorInside = true;
 					break;

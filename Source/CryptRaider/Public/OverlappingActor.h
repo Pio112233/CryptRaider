@@ -28,7 +28,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* MeshComponent;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UWallBoxComponent* WallBoxComponent;
 	
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
