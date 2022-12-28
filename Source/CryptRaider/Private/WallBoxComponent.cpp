@@ -9,6 +9,11 @@ UWallBoxComponent::UWallBoxComponent()
 }
 
 
+void UWallBoxComponent::SetMover(UMover* MoverComp)
+{
+	Mover = MoverComp;
+}
+
 void UWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -22,14 +27,26 @@ void UWallBoxComponent::GetSupportedActor()
 
 	if (OutComponents.Num() > 0)
 	{
-		for (UPrimitiveComponent* Component : OutComponents)
+		if (!bActorInside)
 		{
-			if (Component->ComponentHasTag(OverlappableComponentTag))
+			for (UPrimitiveComponent* Component : OutComponents)
 			{
-				OnSupportedCompOverlap.Broadcast(Component);
-				break;
+				if (Component->ComponentHasTag(OverlappableComponentTag) && !Component->ComponentTags.Contains("grabbed"))
+				{
+					Component->SetSimulatePhysics(false);
+					Component->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+					Component->SetWorldLocation({Component->GetComponentLocation().X, Component->GetComponentLocation().Y, GetComponentLocation().Z - GetScaledBoxExtent().Z});
+					Component->SetWorldRotation({0.0, Component->GetComponentRotation().Yaw, 0.0});
+					OnSupportedCompOverlap.Broadcast(Component);
+					bActorInside = true;
+					break;
+				}
 			}
 		}
+	}
+	else
+	{
+		bActorInside = false;
 	}
 }
 
