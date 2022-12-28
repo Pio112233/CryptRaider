@@ -37,13 +37,13 @@ protected:
 	FName OverlappableComponentTag{};
 
 	UPROPERTY(BlueprintReadOnly)
-	bool bActorInside{false};
-
-private:
+	UPrimitiveComponent* ComponentInside{nullptr};
 
 	UFUNCTION()
-	void GetSupportedActor();
+	virtual UPrimitiveComponent* GetSupportedActor();
 
+private:
+	
 	UPROPERTY()
 	UMover* Mover{nullptr};
 	
