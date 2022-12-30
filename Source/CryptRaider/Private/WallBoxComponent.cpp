@@ -20,14 +20,14 @@ void UWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	GetSupportedActor();
 }
 
-void UWallBoxComponent::GetSupportedActor()
+UPrimitiveComponent* UWallBoxComponent::GetSupportedActor()
 {
 	TArray<UPrimitiveComponent*> OutComponents;
 	GetOverlappingComponents(OutComponents);
 
 	if (OutComponents.Num() > 0)
 	{
-		if (!bActorInside)
+		if (!ComponentInside)
 		{
 			for (UPrimitiveComponent* Component : OutComponents)
 			{
@@ -38,7 +38,7 @@ void UWallBoxComponent::GetSupportedActor()
 					Component->SetWorldLocation({Component->GetComponentLocation().X, Component->GetComponentLocation().Y, GetComponentLocation().Z - GetScaledBoxExtent().Z});
 					Component->SetWorldRotation({0.0, Component->GetComponentRotation().Yaw, 0.0});
 					OnSupportedCompOverlap.Broadcast(Component);
-					bActorInside = true;
+					ComponentInside = Component;
 					break;
 				}
 			}
@@ -46,7 +46,8 @@ void UWallBoxComponent::GetSupportedActor()
 	}
 	else
 	{
-		bActorInside = false;
+		ComponentInside = nullptr;
 	}
+	return ComponentInside;
 }
 

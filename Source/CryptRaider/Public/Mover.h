@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetShouldMove(bool ShouldMove);
 
+	UFUNCTION(BlueprintCallable)
+	void SetMoveAlpha(float NewMoveAlpha);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -31,6 +34,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	FVector MoveOffset{};
+
+	UPROPERTY()
+	float MoveAlpha{1.0};
 
 	FVector OriginalLocation{};
 
