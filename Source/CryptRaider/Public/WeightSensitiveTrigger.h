@@ -25,6 +25,10 @@ protected:
 	float TargetWeight{50.0};
 
 	virtual UPrimitiveComponent* GetSupportedActor() override;
-	
+
+private:
+
+	UPROPERTY()
+	float CurrentWeight{0.0};
 	
 };

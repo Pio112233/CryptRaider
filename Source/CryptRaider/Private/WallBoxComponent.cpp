@@ -43,6 +43,10 @@ UPrimitiveComponent* UWallBoxComponent::GetSupportedActor()
 				}
 			}
 		}
+		else if (ComponentInside->ComponentHasTag("grabbed"))
+		{
+			ComponentInside = nullptr;
+		}
 	}
 	else
 	{
