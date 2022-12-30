@@ -27,18 +27,38 @@ protected:
 private:
 
 	UPROPERTY(EditAnywhere)
+	bool bMovementEnabled{true};
+
+	UPROPERTY(EditAnywhere)
+	bool bRotationEnabled{};
+
+	UPROPERTY(EditAnywhere, Category = Movement)
 	FVector MoveOffset{};
 
 	FVector OriginalLocation{};
 
-	UPROPERTY(EditAnywhere)
-	float MoveTime{4};
+	UPROPERTY(EditAnywhere, Category = Movement)
+	float MoveTime{4.0};
 
-	UPROPERTY(EditAnywhere)
-	bool bShouldMove{false};
+	UPROPERTY(EditAnywhere, Category = Movement)
+	bool bShouldMove{};
+
+	UPROPERTY(EditAnywhere, Category = Rotation)
+	bool bShouldRotate{};
+
+	UPROPERTY(EditAnywhere, Category = Rotation)
+	FRotator RotationOffset{};
+
+	UPROPERTY(EditAnywhere, Category = Rotation)
+	float RotationSpeed{2.0};
+
+	FRotator OriginalRotation{};
 
 	UFUNCTION()
 	void MoveActor(float DeltaTime);
+
+	UFUNCTION()
+	void RotateActor(float DeltaTime);
 
 		
 };
