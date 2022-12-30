@@ -36,6 +36,7 @@ void UMover::MoveActor(float DeltaTime)
 		FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
 
 		GetOwner()->SetActorLocation(NewLocation);
+	}
 }
 
 void UMover::RotateActor(float DeltaTime)
@@ -71,6 +72,11 @@ void UMover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponent
 void UMover::SetShouldMove(bool ShouldMove)
 {
 	bShouldMove = ShouldMove;
+}
+
+void UMover::SetShouldRotate(bool ShouldRotate)
+{
+	bShouldRotate = ShouldRotate;
 }
 
 void UMover::SetMoveAlpha(float NewMoveAlpha)

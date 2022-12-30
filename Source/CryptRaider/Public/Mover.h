@@ -22,6 +22,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetShouldMove(bool ShouldMove);
+	
+	UFUNCTION(BlueprintCallable)
+    void SetShouldRotate(bool ShouldRotate);
 
 	UFUNCTION(BlueprintCallable)
 	void SetMoveAlpha(float NewMoveAlpha);
